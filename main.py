@@ -2,19 +2,23 @@ from constants import *
 import pygame
 
 import main_entity
+import grid
+
 
 clock = pygame.time.Clock()
-surface = pygame.display.set_mode((GAME_WIDTH, GAME_HEIGHT))
+surface = pygame.display.set_mode((CAMERA_VIEW_WIDTH, CAMERA_VIEW_HEIGHT))
 
 pygame.init()
 
 
-
+grid = grid.Grid()
 player_group = pygame.sprite.GroupSingle()
 
 player = main_entity.Main_entity(50, 50)
+test = main_entity.Main_entity(600, 64)
 
 player_group.add(player)
+player_group.add(test)
 
 def main():
     running = True
@@ -40,7 +44,7 @@ def main():
 
 def draw():
     surface.fill((0, 0, 0))#background
-
+    grid.draw(surface)
     player_group.draw(surface)
     pygame.display.flip()
 
