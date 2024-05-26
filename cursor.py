@@ -1,6 +1,6 @@
 import pygame
 from constants import *
-
+import main_entity
 
 class Cursor(pygame.sprite.Sprite):
     """docstring for Curser."""
@@ -23,6 +23,10 @@ class Cursor(pygame.sprite.Sprite):
         self.moving_down = False
 
         self.object_highlighted = None
+
+
+        self.selected_item = None
+
 
     def update(self, sprites):
         if self.is_selected:
@@ -64,5 +68,24 @@ class Cursor(pygame.sprite.Sprite):
         elif not keys[pygame.K_DOWN]:
             self.moving_down = False
 
+
+
         self.rect.x = max(0, min(self.rect.x, GAME_WIDTH - BLOCK_SIZE))
         self.rect.y = max(0, min(self.rect.y, GAME_HEIGHT - BLOCK_SIZE))
+
+
+
+    def select(self, sprites):
+
+        if self.selected_item:
+            self.selected_item.rect.topleft = self.rect.topleft
+            self.selected_item.set_is_selected()
+            self.selected_item = None
+
+        else:
+            collisions = pygame.sprite.spritecollide(self, sprites, False)
+            if collisions:
+                for coll in collisions:
+                    if type(coll) == main_entity.Main_entity:
+                        self.selected_item = coll
+                        self.selected_item.set_is_selected()

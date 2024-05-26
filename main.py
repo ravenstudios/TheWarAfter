@@ -18,14 +18,18 @@ grid = grid.Grid()
 
 cursor = cursor.Cursor()
 
-player = main_entity.Main_entity(64 * 5, 64 * 5)
+player = main_entity.Main_entity(64 * 5, 64 * 5, (0, 0))
+player2 = main_entity.Main_entity(64 * 4, 64 * 4, (32, 0))
 
 
 all_sprites = pygame.sprite.Group()
+mobs = pygame.sprite.Group()
+
+mobs.add(player, player2)
 
 map = map_manager.Map_manager()
 all_sprites.add(map.make_map())
-all_sprites.add(player)
+all_sprites.add(mobs)
 
 def main():
     running = True
@@ -33,6 +37,7 @@ def main():
     while running:
         clock.tick(TICK_RATE)
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:
                 running = False
 
@@ -41,6 +46,11 @@ def main():
 
                 if event.key == pygame.K_q:
                     running = False
+
+            if event.type == pygame.KEYUP:
+                if event.scancode == 40:
+                    cursor.select(all_sprites)
+
         update()
         draw()
 
