@@ -39,6 +39,7 @@ class Popup_menu(pygame.sprite.Sprite):
 
 
     def add_menu_items(self, items, loc):
+        self.menu_items = [] #clear every time we make a new menu
         for item in items:
             rect = pygame.Rect(loc[0], loc[1] + (len(self.menu_items) * BLOCK_SIZE) + (self.gap * len(self.menu_items)), BLOCK_SIZE * self.row_width, BLOCK_SIZE)
 

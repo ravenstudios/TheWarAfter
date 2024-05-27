@@ -22,7 +22,7 @@ class Main_entity(pygame.sprite.Sprite):
         self.can_be_moved = True
 
 
-        self.range = 3
+        self.movment_range = 3
         self.movment_indicator = movment_indicator
 
     def update(self):
@@ -44,8 +44,44 @@ class Main_entity(pygame.sprite.Sprite):
         print("Attack!")
 
     def move(self):
-        self.movment_indicator.is_visible = True
-        self.movment_indicator.rect.center = self.rect.center
+        self.is_selected = True
+        self.movment_indicator.spread_pattern(self.rect.center, self.movment_range)
+
+
+
+    def move_to_location(self, loc):
+        self.rect.topleft = (loc)
+        self.movment_indicator.is_visible = False
+        self.is_selected = False
+
+
+
+    def is_within_range(self, loc):
+        test = {
+            "loc": loc,
+            "min x": self.rect.left - (BLOCK_SIZE * self.movment_range),
+            "max x": self.rect.right + (BLOCK_SIZE * self.movment_range),
+            "min y": self.rect.top - (BLOCK_SIZE * self.movment_range),
+            "max y": self.rect.bottom + (BLOCK_SIZE * self.movment_range)
+        }
+        print(test)
+        if loc[0] < self.rect.left - (BLOCK_SIZE * self.movment_range):
+            return False
+
+        if loc[0] > self.rect.right + (BLOCK_SIZE * self.movment_range):
+            return False
+
+
+        if loc[1] < self.rect.top - (BLOCK_SIZE * self.movment_range):
+            return False
+
+
+        if loc[1] > self.rect.bottom + (BLOCK_SIZE * self.movment_range):
+            return False
+
+
+        self.is_selected = True
+        return True
 
     def get_menu_items(self):
         return[["Move", self.move], ["Attack", self.attack]]

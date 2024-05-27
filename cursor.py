@@ -77,18 +77,19 @@ class Cursor(pygame.sprite.Sprite):
 
 
     def select(self, sprites):
-
         if self.selected_item:
+            if self.selected_item.is_within_range(self.rect.topleft):
+                self.selected_item.move_to_location(self.rect.topleft)
+                self.selected_item = None
+                return
 
-            self.popup_menu.is_visible = True
-            self.popup_menu.add_menu_items(self.selected_item.get_menu_items(), self.rect.topleft)
-            self.popup_menu.resize((self.rect.x + BLOCK_SIZE, self.rect.y))
 
-
-        else:
-            collisions = pygame.sprite.spritecollide(self, sprites, False)
-            if collisions:
-                for coll in collisions:
-                    if type(coll) == main_entity.Main_entity:
-                        self.selected_item = coll
-                        self.selected_item.set_is_selected()
+        self.popup_menu.is_visible = False
+        collisions = pygame.sprite.spritecollide(self, sprites, False)
+        if collisions:
+            for coll in collisions:
+                if type(coll) == main_entity.Main_entity:
+                    self.popup_menu.is_visible = True
+                    self.popup_menu.add_menu_items(coll.get_menu_items(), self.rect.topleft)
+                    self.popup_menu.resize((self.rect.x + BLOCK_SIZE, self.rect.y))
+                    self.selected_item = coll

@@ -20,7 +20,7 @@ grid = grid.Grid()
 
 popup_menu = popup_menu.Popup_menu()
 cursor = cursor.Cursor(popup_menu)
-movment_indicator = movment_indicator.Movment_indicator(3)
+movment_indicator = movment_indicator.Movment_indicator()
 
 
 player = main_entity.Main_entity(64 * 5, 64 * 5, (0, 0), movment_indicator)
