@@ -3,7 +3,7 @@ from constants import *
 
 class Main_entity(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, sprite_index):
+    def __init__(self, x, y, sprite_index, movment_indicator):
         super().__init__()
         self.width = BLOCK_SIZE
         self.height = BLOCK_SIZE
@@ -19,7 +19,11 @@ class Main_entity(pygame.sprite.Sprite):
 
 
         self.is_selected = False
+        self.can_be_moved = True
 
+
+        self.range = 3
+        self.movment_indicator = movment_indicator
 
     def update(self):
         # Redraw the image to ensure the border is applied freshly each update
@@ -34,6 +38,17 @@ class Main_entity(pygame.sprite.Sprite):
     def set_is_selected(self):
         self.is_selected = not self.is_selected
         print(self.is_selected)
+
+
+    def attack(self):
+        print("Attack!")
+
+    def move(self):
+        self.movment_indicator.is_visible = True
+        self.movment_indicator.rect.center = self.rect.center
+
+    def get_menu_items(self):
+        return[["Move", self.move], ["Attack", self.attack]]
 
 
     def get_image_from_sprite_sheet(self, sprite_index):

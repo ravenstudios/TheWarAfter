@@ -5,7 +5,7 @@ import main_entity
 class Cursor(pygame.sprite.Sprite):
     """docstring for Curser."""
 
-    def __init__(self):
+    def __init__(self, popup_menu):
         super().__init__()
         self.width = BLOCK_SIZE
         self.height = BLOCK_SIZE
@@ -27,6 +27,7 @@ class Cursor(pygame.sprite.Sprite):
 
         self.selected_item = None
 
+        self.popup_menu = popup_menu
 
     def update(self, sprites):
         if self.is_selected:
@@ -78,9 +79,11 @@ class Cursor(pygame.sprite.Sprite):
     def select(self, sprites):
 
         if self.selected_item:
-            self.selected_item.rect.topleft = self.rect.topleft
-            self.selected_item.set_is_selected()
-            self.selected_item = None
+
+            self.popup_menu.is_visible = True
+            self.popup_menu.add_menu_items(self.selected_item.get_menu_items(), self.rect.topleft)
+            self.popup_menu.resize((self.rect.x + BLOCK_SIZE, self.rect.y))
+
 
         else:
             collisions = pygame.sprite.spritecollide(self, sprites, False)
